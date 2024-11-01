@@ -1,6 +1,7 @@
 import time
 import requests
 import base58
+from decimal import Decimal
 from solana.rpc.api import Client
 from solders.keypair import Keypair
 import pandas as pd
@@ -36,11 +37,11 @@ def market_maker():
         try:
             market_data = fetch_market_data()
             # Extract price information
-            price = float(market_data['pairs'][0]['priceUsd'])  # Update this line to correctly extract the price
+            price = Decimal(market_data['pairs'][0]['priceUsd'])  # Update this line to correctly extract the price
 
             # Define spread for placing buy/sell orders
-            buy_price = price * 0.99
-            sell_price = price * 1.01
+            buy_price = price * Decimal(0.99)
+            sell_price = price * Decimal(1.01)
 
             # Place buy order
             place_order(buy_price, "buy")
