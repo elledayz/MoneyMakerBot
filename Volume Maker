@@ -1,5 +1,6 @@
 import time
 import requests
+import base58
 from solana.rpc.api import Client
 from solders.keypair import Keypair
 import pandas as pd
@@ -14,7 +15,7 @@ client = Client(SOLANA_URL)
 
 # Create an account using the private key (Keypair from secret bytes)
 try:
-    secret_key_bytes = bytes.fromhex(PRIVATE_KEY)
+    secret_key_bytes = base58.b58decode(PRIVATE_KEY)
     keypair = Keypair.from_bytes(secret_key_bytes)
 except ValueError:
     print("Error: Invalid private key format")
