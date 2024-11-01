@@ -1,0 +1,62 @@
+import time
+import requests
+from solana.rpc.api import Client
+from solders.pubkey import Pubkey
+from solana.keypair import Keypair
+from solana.transaction import Transaction
+import pandas as pd
+
+
+# Constants
+SOLANA_URL = "https://api.mainnet-beta.solana.com"  # Solana RPC endpoint
+MARKET_URL = "https://api.dexscreener.io/latest/dex/tokens/HCLtHYmSw11tHaQNtPXCzBYdxwrxmGk8okAFEuxkSNBb"  # Replace with token pair URL
+PRIVATE_KEY = "zXfpHm7hDbUmy3LR9JZhdGhZYbGbKZbYvcjJZYRYGcUp7hbjb4Kav7sk6zZdU8SJDFWECQP8NomvXuu1wSEXD6c"  # Add your wallet private key here
+
+# Initialize Solana Client
+client = Client(SOLANA_URL)
+account = Account(bytes.fromhex(PRIVATE_KEY))
+
+# Fetch Market Data
+def fetch_market_data():
+    response = requests.get(MARKET_URL)
+    if response.status_code == 200:
+        data = response.json()
+        return data
+    else:
+        raise Exception("Error fetching market data")
+
+# Simple Market Making Logic
+def market_maker():
+    while True:
+        try:
+            market_data = fetch_market_data()
+            # Extract price information
+            price = float(market_data['pair']['priceUsd'])
+
+            # Define spread for placing buy/sell orders
+            buy_price = price * 0.99
+            sell_price = price * 1.01
+
+            # Place buy order
+            place_order(buy_price, "buy")
+            # Place sell order
+            place_order(sell_price, "sell")
+
+            print(f"Placed buy at {buy_price} and sell at {sell_price}")
+
+            # Wait before the next cycle
+            time.sleep(30)
+
+        except Exception as e:
+            print(f"An error occurred: {e}")
+
+# Placeholder for Order Placement
+def place_order(price, side):
+    # Implement your logic here using Serum or another DEX
+    # You can use solana and ccxt library to create and sign transactions
+    print(f"Placing a {side} order at price {price}")
+    pass
+
+# Start Market Making
+if __name__ == "__main__":
+    market_maker()
