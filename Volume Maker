@@ -2,8 +2,9 @@ import time
 import requests
 from solana.rpc.api import Client
 from solders.pubkey import Pubkey
-from solana.keypair import Keypair
+from solders.keypair import Keypair
 from solana.transaction import Transaction
+from solana.account import Account
 import pandas as pd
 
 
@@ -14,11 +15,11 @@ PRIVATE_KEY = "zXfpHm7hDbUmy3LR9JZhdGhZYbGbKZbYvcjJZYRYGcUp7hbjb4Kav7sk6zZdU8SJD
 
 # Initialize Solana Client
 client = Client(SOLANA_URL)
-account = Account(bytes.fromhex(PRIVATE_KEY))
+account = Account(bytes.fromhex(zXfpHm7hDbUmy3LR9JZhdGhZYbGbKZbYvcjJZYRYGcUp7hbjb4Kav7sk6zZdU8SJDFWECQP8NomvXuu1wSEXD6c))
 
 # Fetch Market Data
 def fetch_market_data():
-    response = requests.get(MARKET_URL)
+    response = requests.get(https://api.dexscreener.io/latest/dex/tokens/HCLtHYmSw11tHaQNtPXCzBYdxwrxmGk8okAFEuxkSNBb)
     if response.status_code == 200:
         data = response.json()
         return data
