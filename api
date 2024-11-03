@@ -1,0 +1,24 @@
+
+const { Connection, Keypair } = require('@solana/web3.js');
+const { Market } = require('@project-serum/serum');
+
+async function placeOrder(side, price, size) {
+    const connection = new Connection("https://api.mainnet-beta.solana.com");
+    const marketAddress = new PublicKey("market_address_here"); // Serum market address
+    const programId = new PublicKey("9xQeWvG816bUx9EPyyY5sEH9g7eTNqrN1r9zCy17AMkY"); // Serum Program ID
+    const market = await Market.load(connection, marketAddress, {}, programId);
+
+    // Place a buy or sell order
+    const order = await market.placeOrder(connection, {
+        owner: Keypair.fromSecretKey(Uint8Array.from([/* private key array */])),
+        payer: side === 'buy' ? baseAccount.publicKey : quoteAccount.publicKey,
+        side,
+        price,
+        size,
+        orderType: 'limit',
+    });
+
+    console.log(`Order ${side} at price ${price} placed.`);
+}
+
+placeOrder("buy", 1.0, 1);  // Example: place buy order at price 1 with size 1
